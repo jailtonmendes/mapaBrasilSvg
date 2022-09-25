@@ -17,7 +17,7 @@ header {
 
 main {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr 1fr;
 }
 
 footer {
@@ -42,7 +42,7 @@ footer {
 }
 
 .info {
-    margin-right: 20vh;
+    margin-right: 50vh;
 }
 
 svg {
@@ -75,8 +75,12 @@ path:hover {
 }
 
 .card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     height: 15vh;
-    width: 25vh;
+    width: 40vh;
     text-align: center;
     color: white;
     margin-bottom: 3vh;
@@ -98,7 +102,8 @@ path:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    font: bolder 8vh serif;
+    font: bolder 5vh serif;
+    margin-top: 5px;
 }
 
 .titulos {

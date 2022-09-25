@@ -2,10 +2,10 @@
 
 let DB = [
     {
-        "uf": "Brasil",
-        "suspeitos": "100",
-        "confirmados": "50",
-        "mortes": "5"
+        "uf": "Brazil",
+        "suspeitos": "<div class='spinner blue'></div>",
+        "confirmados": "<div class='spinner gold'></div>",
+        "mortes": "<div class='spinner red'></div>"
     }
 ];
 
@@ -15,43 +15,64 @@ const showData = ( data ) => {
             ${data.uf}
         </div>
         <div class='card suspeitos'>
-            <div class='numeros'><div class='spinner blue'></div></div>
+            <div class='numeros'>${data.suspeitos}</div>
             <div class='titulos'> SUSPEITOS </div>
         </div>
         <div class='card confirmados'>
-            <div class='numeros'><div class='spinner gold'></div></div>
+            <div class='numeros'>${data.confirmados}</div>
             <div class='titulos'> CONFIRMADOS </div>
         </div>
         <div class='card mortes'>
-            <div class='numeros'><div class='spinner red'></div></div>
+            <div class='numeros'>${data.mortes}</div>
             <div class='titulos'> MORTES </div>
         </div>
     `;
 
-    const $container = document.createElement ('div');
+    const $container = document.createElement('div');
     $container.innerHTML = panel;
 
     const $info = document.getElementById ('info');
-    // $info.removeChild($info.firstChild)
-    $info.appendChild ($container);
+    $info.removeChild( $info.firstChild );
+    $info.appendChild ( $container );
 };
 
-const getCoronaBrasil = async () => {
+const getCoronaBrazil = async () => {
     const url = 'https://covid19-brazil-api.now.sh/api/report/v1/brazil';
     const getApi = await fetch (url);
     const json = await getApi.json();
-    const brasil = await {
-        "uf": "Brasil",
+    console.log(json);
+    const brazil = await {
+        "uf": "Brazil",
         "suspeitos": json.data.cases,
         "confirmados": json.data.confirmed,
         "mortes": json.data.deaths
     }
 
-    showData(brasil)
+    showData(brazil)
 }
-// const getCoronaState = async() => {
 
-// }
+
+const getCoronaState = async() => {
+    const url = 'https://covid19-brazil-api.now.sh/api/report/v1/';
+    const getApi = await fetch (url);
+    const json = await getApi.json();
+    DB = await json.data;
+}
+
+const findState = ( evento ) => {
+    const ufMap = evento.target.id;
+    const getState = DB.find( state => state.uf.match(ufMap));
+    const state = {
+        "uf": getState.uf,
+        "suspeitos": getState.suspects,
+        "confirmados": getState.cases,
+        "mortes": getState.deaths
+    }
+    showData(state);
+}   
+
+document.querySelector ( 'svg' ).addEventListener ('click', findState);
 
 showData( DB[0]);
-getCoronaBrasil();
+getCoronaState();
+getCoronaBrazil();
